@@ -4,15 +4,20 @@ package _03_jars._2_jukebox;
  *    Level 1
  */
 
-
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.Iterator;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import javazoom.jl.player.advanced.AdvancedPlayer;
@@ -20,30 +25,56 @@ import javazoom.jl.player.advanced.AdvancedPlayer;
 /*   If you don't have javazoom.jar in your project, you can download it from here: http://bit.ly/javazoom
  *   Right click your project and add it as a JAR (Under Java Build Path > Libraries).*/
 
-public class Jukebox implements Runnable {
+public class Jukebox implements Runnable, ActionListener {
+	JButton button = new JButton();
+	JButton nottub = new JButton();
+	Song yay = new Song("nice.mp3");
+	Song woaaahhh = new Song(
+			"PIZZA PIZZA PIZZA PIZZA PIZZA PIZZA PIZZA PIZZA PIZZA PIZZA PIZZA PIZZA PIZZA PIZZA PIZZA PIZZA PIZZA PIZZA PIZZA PIZZA PIZZA PIZZA PIZZA PIZZA PIZZA PIZZA PIZZA PIZZA PIZZA PIZZA.mp3");
 
-    public void run() {
+	public void run() {
 
 		// 1. Find an mp3 on your computer or on the Internet.
 		// 2. Create a Song object for that mp3
-
 		// 3. Play the Song
-
+		JFrame frame = new JFrame();
+		JPanel panel = new JPanel();
+		frame.setVisible(true);
+		frame.add(panel);
+		button.setText("NICE!!!!");
+		nottub.setText("PPPIIIZZZZZAAA!!");
+		button.addActionListener(this);
+		nottub.addActionListener(this);
+		panel.add(button);
+		panel.add(nottub);
+		frame.pack();
 		/*
-		 * 4. Create a user interface for your Jukebox so that the user can to
-		 * choose which song to play. You can use can use a different button for
-		 * each song, or a picture of the album cover. When the button or album
-		 * cover is clicked, stop the currently playing song, and play the one
-		 * that was selected.
+		 * 4. Create a user interface for your Jukebox so that the user can to choose
+		 * which song to play. You can use can use a different button for each song, or
+		 * a picture of the album cover. When the button or album cover is clicked, stop
+		 * the currently playing song, and play the one that was selected.
 		 */
-    }
-    
-    
+	}
+
 	/* Use this method to add album covers to your Panel. */
 	private JLabel loadImage(String fileName) {
 		URL imageURL = getClass().getResource(fileName);
 		Icon icon = new ImageIcon(imageURL);
 		return new JLabel(icon);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == button) {
+			woaaahhh.stop();
+			yay.play();
+		}
+		if (e.getSource() == nottub) {
+			yay.stop();
+			woaaahhh.play();
+		}
+	
+
 	}
 
 }
@@ -56,8 +87,7 @@ class Song {
 	private InputStream songStream;
 
 	/**
-	 * Songs can be constructed from files on your computer or Internet
-	 * addresses.
+	 * Songs can be constructed from files on your computer or Internet addresses.
 	 * 
 	 * Examples: <code> 
 	 * 		new Song("everywhere.mp3"); 	//from default package 
@@ -132,4 +162,3 @@ class Song {
 		}
 	}
 }
-
