@@ -24,12 +24,6 @@ for (int i = 0; i < 10; i++) {
 		flo.setColor(Color.PINK);
 		Location loc = new Location(l,i);
 		world.add(loc, flo);
-		try {
-			Thread.sleep(4);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		flo.setColor(Color.BLUE);
 	}
 }
 }
