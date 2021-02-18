@@ -5,7 +5,10 @@ package _07_cow_timer;
  */
 
 import java.applet.AudioClip;
+import java.io.File;
 import java.io.IOException;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.JApplet;
 
 public class CowTimer {
@@ -13,10 +16,12 @@ public class CowTimer {
 	/*
 	 * 1. Make a constructor for the CowTimer class that initializes the minutes
 	 * variable
-	 */
+	 *
 
 	/* 4. Complete the main method of the CowTimerRunner class */
-
+public CowTimer(int minutes) {
+this.minutes = minutes;	
+}
 	private int minutes;
 
 	public void setTime(int minutes) {
@@ -35,13 +40,34 @@ public class CowTimer {
 		 * You can use the .wav file in the default package, or you can download one
 		 * from freesound.org, then drag it intothe default package.
 		 */
+for (int i = minutes; i >= 0; i--) {
+Thread.sleep(1000);
+System.out.println(i);	
+}
+playSound("moo.wav");
+	}	
+			
+		private void playSound(String soundFile) {
+			String path = "src/_07_cow_timer/";
+				File sound = new File(path+soundFile);
+				if (sound.exists()) {
+					new Thread(() -> {
+					try {
+						Clip clip = AudioSystem.getClip();
+						clip.open(AudioSystem.getAudioInputStream(sound));
+						clip.start();
+						Thread.sleep(clip.getMicrosecondLength()/1000);
+					}
+					catch (Exception e) {
+						System.out.println("Could not play this sound");
+					}}).start();
+		 		}
+				else {
+					System.out.println("File does not exist");
+				}
 
-	}
-
-	private void playSound(String fileName) {
-		AudioClip sound = JApplet.newAudioClip(getClass().getResource(fileName));
-		sound.play();
-	}
+		}
+	
 
 	static void speak(String words) {
 		if (System.getProperty("os.name").contains("Windows")) {
